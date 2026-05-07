@@ -5,6 +5,7 @@ import LatexReferencer from 'main';
 import { Transferable } from "./transferable";
 import ImportWorker from "index/web-worker/importer.worker";
 import { ImportCommand } from "./message";
+import { preprocessLatexTheoremEnvironments } from "theorem-callouts/latex-environment";
 
 /** Settings for throttling import. */
 export interface ImportThrottle {
@@ -87,7 +88,7 @@ export class MathImporter extends Component {
                 Transferable.transferable({
                     type: "markdown",
                     path: file.path,
-                    contents: c,
+                    contents: preprocessLatexTheoremEnvironments(c, this.plugin.extraSettings.excludeExampleCallout),
                     metadata: this.metadataCache.getFileCache(file),
                     excludeExampleCallout: this.plugin.extraSettings.excludeExampleCallout,
                 } as ImportCommand)

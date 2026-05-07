@@ -34,3 +34,172 @@
 .theme-dark :has(> .theorem-callout-card) .callout.theorem-callout {
     box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.32), 0px 1px 2px rgba(0, 0, 0, 0.32), 0px 0px 0px 1px rgba(0, 0, 0, 0.32), 0px 0px 1px 1px rgba(0, 0, 0, 0.12), inset 0px 1px 0.75px rgba(255, 255, 255, 0.24), inset 0px -2px 0.75px rgba(0, 0, 0, 0.16);
 }
+
+:has(> .theorem-callout-framed) .theorem-callout-axiom,
+:has(> .theorem-callout-card) .callout.theorem-callout-axiom {
+    --callout-color: 239, 68, 68;
+    --math-booster-callout-title: #b91c1c;
+    --math-booster-callout-content: #7f1d1d;
+}
+:has(> .theorem-callout-framed) .theorem-callout-definition,
+:has(> .theorem-callout-card) .callout.theorem-callout-definition {
+    --callout-color: 16, 185, 129;
+    --math-booster-callout-title: #047857;
+    --math-booster-callout-content: #064e3b;
+}
+:has(> .theorem-callout-framed) .theorem-callout-lemma,
+:has(> .theorem-callout-card) .callout.theorem-callout-lemma {
+    --callout-color: 139, 92, 246;
+    --math-booster-callout-title: #7c3aed;
+    --math-booster-callout-content: #4c1d95;
+}
+:has(> .theorem-callout-framed) .theorem-callout-proposition,
+:has(> .theorem-callout-card) .callout.theorem-callout-proposition {
+    --callout-color: 59, 130, 246;
+    --math-booster-callout-title: #2563eb;
+    --math-booster-callout-content: #1e3a8a;
+}
+:has(> .theorem-callout-framed) .theorem-callout-theorem,
+:has(> .theorem-callout-card) .callout.theorem-callout-theorem {
+    --callout-color: 99, 102, 241;
+    --math-booster-callout-title: #4f46e5;
+    --math-booster-callout-content: #312e81;
+}
+:has(> .theorem-callout-framed) .theorem-callout-corollary,
+:has(> .theorem-callout-card) .callout.theorem-callout-corollary {
+    --callout-color: 6, 182, 212;
+    --math-booster-callout-title: #0891b2;
+    --math-booster-callout-content: #164e63;
+}
+:has(> .theorem-callout-framed) .theorem-callout-claim,
+:has(> .theorem-callout-card) .callout.theorem-callout-claim {
+    --callout-color: 244, 63, 94;
+    --math-booster-callout-title: #e11d48;
+    --math-booster-callout-content: #881337;
+}
+:has(> .theorem-callout-framed) .theorem-callout-assumption,
+:has(> .theorem-callout-card) .callout.theorem-callout-assumption {
+    --callout-color: 245, 158, 11;
+    --math-booster-callout-title: #d97706;
+    --math-booster-callout-content: #78350f;
+}
+:has(> .theorem-callout-framed) .theorem-callout-example,
+:has(> .theorem-callout-card) .callout.theorem-callout-example {
+    --callout-color: 249, 115, 22;
+    --math-booster-callout-title: #ea580c;
+    --math-booster-callout-content: #7c2d12;
+}
+:has(> .theorem-callout-framed) .theorem-callout-exercise,
+:has(> .theorem-callout-card) .callout.theorem-callout-exercise {
+    --callout-color: 132, 204, 22;
+    --math-booster-callout-title: #65a30d;
+    --math-booster-callout-content: #365314;
+}
+:has(> .theorem-callout-framed) .theorem-callout-conjecture,
+:has(> .theorem-callout-card) .callout.theorem-callout-conjecture {
+    --callout-color: 217, 70, 239;
+    --math-booster-callout-title: #c026d3;
+    --math-booster-callout-content: #701a75;
+}
+:has(> .theorem-callout-framed) .theorem-callout-hypothesis,
+:has(> .theorem-callout-card) .callout.theorem-callout-hypothesis {
+    --callout-color: 20, 184, 166;
+    --math-booster-callout-title: #0f766e;
+    --math-booster-callout-content: #134e4a;
+}
+:has(> .theorem-callout-framed) .theorem-callout-remark,
+:has(> .theorem-callout-card) .callout.theorem-callout-remark {
+    --callout-color: 100, 116, 139;
+    --math-booster-callout-title: #475569;
+    --math-booster-callout-content: #334155;
+}
+:has(> .theorem-callout-framed) .theorem-callout-math,
+:has(> .theorem-callout-card) .callout.theorem-callout-math {
+    --callout-color: 14, 165, 233;
+    --math-booster-callout-title: #0284c7;
+    --math-booster-callout-content: #0c4a6e;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-axiom,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-axiom {
+    --callout-color: 248, 113, 113;
+    --math-booster-callout-title: #fecaca;
+    --math-booster-callout-content: #fee2e2;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-definition,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-definition {
+    --callout-color: 52, 211, 153;
+    --math-booster-callout-title: #a7f3d0;
+    --math-booster-callout-content: #ecfdf5;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-lemma,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-lemma {
+    --callout-color: 167, 139, 250;
+    --math-booster-callout-title: #ddd6fe;
+    --math-booster-callout-content: #f5f3ff;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-proposition,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-proposition {
+    --callout-color: 96, 165, 250;
+    --math-booster-callout-title: #bfdbfe;
+    --math-booster-callout-content: #eff6ff;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-theorem,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-theorem {
+    --callout-color: 129, 140, 248;
+    --math-booster-callout-title: #c7d2fe;
+    --math-booster-callout-content: #eef2ff;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-corollary,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-corollary {
+    --callout-color: 34, 211, 238;
+    --math-booster-callout-title: #a5f3fc;
+    --math-booster-callout-content: #ecfeff;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-claim,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-claim {
+    --callout-color: 251, 113, 133;
+    --math-booster-callout-title: #fecdd3;
+    --math-booster-callout-content: #fff1f2;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-assumption,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-assumption {
+    --callout-color: 251, 191, 36;
+    --math-booster-callout-title: #fde68a;
+    --math-booster-callout-content: #fffbeb;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-example,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-example {
+    --callout-color: 251, 146, 60;
+    --math-booster-callout-title: #fed7aa;
+    --math-booster-callout-content: #fff7ed;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-exercise,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-exercise {
+    --callout-color: 163, 230, 53;
+    --math-booster-callout-title: #d9f99d;
+    --math-booster-callout-content: #f7fee7;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-conjecture,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-conjecture {
+    --callout-color: 232, 121, 249;
+    --math-booster-callout-title: #f5d0fe;
+    --math-booster-callout-content: #fdf4ff;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-hypothesis,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-hypothesis {
+    --callout-color: 45, 212, 191;
+    --math-booster-callout-title: #99f6e4;
+    --math-booster-callout-content: #f0fdfa;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-remark,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-remark {
+    --callout-color: 148, 163, 184;
+    --math-booster-callout-title: #cbd5e1;
+    --math-booster-callout-content: #f8fafc;
+}
+.theme-dark :has(> .theorem-callout-framed) .theorem-callout-math,
+.theme-dark :has(> .theorem-callout-card) .callout.theorem-callout-math {
+    --callout-color: 56, 189, 248;
+    --math-booster-callout-title: #bae6fd;
+    --math-booster-callout-content: #f0f9ff;
+}

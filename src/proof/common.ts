@@ -1,4 +1,25 @@
 import { Profile } from "settings/profile";
+import { MathContextSettings } from "settings/settings";
+
+export function parseProofText(text: string, settings: Required<Pick<MathContextSettings, "beginProof" | "endProof">>): { which: "begin" | "end", display: string | null, linktext: string | null } | null {
+    if (text.startsWith(settings.beginProof)) {
+        const rest = text.slice(settings.beginProof.length);
+        if (!rest) {
+            return { which: "begin", display: null, linktext: null };
+        }
+        const displayMatch = rest.match(/^\[(.*)\]$/);
+        if (displayMatch) {
+            return { which: "begin", display: displayMatch[1], linktext: null };
+        }
+        const linkMatch = rest.match(/^@\[\[(.*)\]\]$/);
+        if (linkMatch) {
+            return { which: "begin", display: null, linktext: linkMatch[1] };
+        }
+    } else if (text === settings.endProof) {
+        return { which: "end", display: null, linktext: null };
+    }
+    return null;
+}
 
 export function makeProofClasses(which: "begin" | "end", profile: Profile) {
     return [

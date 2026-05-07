@@ -2,6 +2,7 @@ import LatexReferencer from "main";
 import { App, MarkdownPostProcessorContext, MarkdownRenderChild, TFile } from "obsidian";
 import { resolveSettings } from "utils/plugin";
 import { makeProofClasses, makeProofElement } from "./common";
+import { parseProofText } from "./common";
 import { renderMarkdown } from "utils/render";
 import { Profile } from "settings/profile";
 
@@ -16,20 +17,47 @@ export const createProofProcessor = (plugin: LatexReferencer) => (element: HTMLE
     const settings = resolveSettings(undefined, plugin, file);
     const codes = element.querySelectorAll<HTMLElement>("code");
     for (const code of codes) {
+        if (code.closest("pre")) continue;
         const text = code.textContent;
         if (!text) continue;
 
-        if (text.startsWith(settings.beginProof)) {
-            const rest = text.slice(settings.beginProof.length);
-            let displayMatch;
-            if (!rest) {
-                context.addChild(new ProofRenderer(app, plugin, code, "begin", file));
-            } else if (displayMatch = rest.match(/^\[(.*)\]$/)) {
-                const display = displayMatch[1];
-                context.addChild(new ProofRenderer(app, plugin, code, "begin", file, display));
-            }
-        } else if (code.textContent == settings.endProof) {
+        const parsed = parseProofText(text, settings);
+        if (!parsed) continue;
+        if (parsed.which === "begin") {
+            const profile = plugin.extraSettings.profiles[settings.profile];
+            const display = parsed.linktext ? `${profile.body.proof.linkedBeginPrefix} [[${parsed.linktext}]]${profile.body.proof.linkedBeginSuffix}` : parsed.display;
+            context.addChild(new ProofRenderer(app, plugin, code, "begin", file, display ?? undefined));
+        } else {
             context.addChild(new ProofRenderer(app, plugin, code, "end", file));
+        }
+    }
+
+    const paragraphs = element.querySelectorAll<HTMLParagraphElement>("p");
+    for (const paragraph of paragraphs) {
+        if (paragraph.children.length > 0) continue;
+        const text = paragraph.textContent;
+        if (!text) continue;
+        const profile = plugin.extraSettings.profiles[settings.profile];
+        const lines = text.split(/\r?\n/);
+        const children: (Node | string)[] = [];
+        let hasProofMarker = false;
+        for (let index = 0; index < lines.length; index++) {
+            if (index > 0) {
+                children.push(document.createElement("br"));
+            }
+            const parsed = parseProofText(lines[index].trim(), settings);
+            if (!parsed) {
+                children.push(document.createTextNode(lines[index]));
+                continue;
+            }
+            hasProofMarker = true;
+            const marker = createSpan();
+            const display = parsed.linktext ? `${profile.body.proof.linkedBeginPrefix} [[${parsed.linktext}]]${profile.body.proof.linkedBeginSuffix}` : parsed.display;
+            context.addChild(new ProofRenderer(app, plugin, marker, parsed.which, file, display ?? undefined));
+            children.push(marker);
+        }
+        if (hasProofMarker) {
+            paragraph.replaceChildren(...children);
         }
     }
 };

@@ -43,7 +43,13 @@
 }
 
 .math-booster-begin-proof {
-    padding-right: 10px;
+    display: inline-flex;
+    align-items: center;
+    color: #5b21b6;
+    background-color: rgba(124, 58, 237, 0.12);
+    border: 1px solid rgba(124, 58, 237, 0.35);
+    border-radius: var(--radius-s);
+    padding: 1px 10px;
     font-weight: bold;
 }
 
@@ -53,7 +59,19 @@
 
 
 .math-booster-end-proof {
+    color: #5b21b6;
+    background-color: rgba(124, 58, 237, 0.12);
+    border: 1px solid rgba(124, 58, 237, 0.35);
+    border-radius: var(--radius-s);
+    padding: 0 8px;
     float: right;
+}
+
+.theme-dark .math-booster-begin-proof,
+.theme-dark .math-booster-end-proof {
+    color: #ddd6fe;
+    background-color: rgba(167, 139, 250, 0.16);
+    border-color: rgba(167, 139, 250, 0.42);
 }
 
 .math-booster-add-profile {

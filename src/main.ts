@@ -8,6 +8,7 @@ import { MathContextSettings, DEFAULT_SETTINGS, ExtraSettings, DEFAULT_EXTRA_SET
 import { MathSettingTab } from "settings/tab";
 import { CleverefProvider } from 'cleveref';
 import { createTheoremCalloutPostProcessor } from 'theorem-callouts/renderer';
+import { createLatexTheoremEnvironmentProcessor, createLatexTheoremEnvironmentViewPlugin } from 'theorem-callouts/latex-environment';
 import { createTheoremCalloutNumberingViewPlugin } from 'theorem-callouts/view-plugin';
 import { ContextSettingModal, TheoremCalloutModal } from 'settings/modals';
 import { createEquationNumberProcessor } from 'equations/reading-view';
@@ -137,6 +138,7 @@ export default class LatexReferencer extends Plugin {
 		/** Markdown post processors */
 
 		// theorem callouts
+		this.registerMarkdownPostProcessor(createLatexTheoremEnvironmentProcessor(this));
 		this.registerMarkdownPostProcessor(createTheoremCalloutPostProcessor(this));
 
 		// equation numbers
@@ -272,6 +274,7 @@ export default class LatexReferencer extends Plugin {
 		// theorem callouts
 		this.editorExtensions.push(this.theoremCalloutsField = createTheoremCalloutsField(this));
 		this.editorExtensions.push(createTheoremCalloutNumberingViewPlugin(this));
+		this.editorExtensions.push(createLatexTheoremEnvironmentViewPlugin(this));
 
 		// equation numbers
 		this.editorExtensions.push(createEquationNumberPlugin(this));

@@ -31,3 +31,5 @@ docs/_site/
 
 # Unused
 src/callout_decoration.ts
+# Windsurf local project rules
+.windsurfrules

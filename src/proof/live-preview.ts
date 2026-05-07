@@ -1,5 +1,5 @@
 import { editorInfoField } from 'obsidian';
-import { RangeSetBuilder } from '@codemirror/state';
+import { RangeSetBuilder, SelectionRange } from '@codemirror/state';
 import { Decoration, DecorationSet, EditorView, PluginValue, ViewPlugin, ViewUpdate, WidgetType } from '@codemirror/view';
 import { SyntaxNodeRef } from '@lezer/common';
 import { syntaxTree } from '@codemirror/language';
@@ -9,7 +9,7 @@ import { nodeText, rangesHaveOverlap } from 'utils/editor';
 import { Profile } from 'settings/profile';
 import { renderMarkdown } from 'utils/render';
 import { resolveSettings } from 'utils/plugin';
-import { makeProofClasses, makeProofElement } from './common';
+import { makeProofClasses, makeProofElement, parseProofText } from './common';
 
 export const INLINE_CODE = "inline-code";
 export const LINK_BEGIN = "formatting-link_formatting-link-start";
@@ -126,6 +126,7 @@ export const createProofDecoration = (plugin: LatexReferencer) => ViewPlugin.fro
             const profile = plugin.extraSettings.profiles[settings.profile];
 
             const builder = new RangeSetBuilder<Decoration>();
+            const proofRanges: { start: number, end: number, widget: BeginProofWidget | EndProofWidget }[] = [];
 
             for (const { from, to } of view.visibleRanges) {
                 tree.iterate({
@@ -139,22 +140,13 @@ export const createProofDecoration = (plugin: LatexReferencer) => ViewPlugin.fro
                         let linktext: string | null = null;
 
                         const text = nodeText(node, state);
+                        const parsed = parseProofText(text, settings);
 
-                        if (text.startsWith(settings.beginProof)) {
-                            // handle "\begin{proof}"
-                            const rest = text.slice(settings.beginProof.length);
-                            if (!rest) { // only "\begin{proof}"
-                                start = node.from - 1;
-                                end = node.to + 1; // 1 = "`".length
-                                display = null;
-                            } else {
-                                const match = rest.match(/^\[(.*)\]$/);
-                                if (match) { // custom display text is given, e.g. "\begin{proof}[Solutions.]"
-                                    start = node.from - 1;
-                                    end = node.to + 1; // 1 = "`".length
-                                    display = match[1];
-                                }
-                            }
+                        if (parsed?.which === "begin") {
+                            display = parsed.display;
+                            linktext = parsed.linktext;
+                            start = node.from - 1;
+                            end = node.to + 1; // 1 = "`".length
 
                             if (start === -1 || end === -1) return; // not proof
 
@@ -169,36 +161,73 @@ export const createProofDecoration = (plugin: LatexReferencer) => ViewPlugin.fro
                             }
 
                             if (!rangesHaveOverlap(ranges, start, end)) {
-                                builder.add(
-                                    start, end,
-                                    Decoration.replace({
-                                        widget: new BeginProofWidget(plugin, profile, display, linktext, sourcePath)
-                                    })
-                                );
+                                proofRanges.push({ start, end, widget: new BeginProofWidget(plugin, profile, display, linktext, sourcePath) });
                             }
 
-                        } else if (text === settings.endProof) {
+                        } else if (parsed?.which === "end") {
                             // handle "\end{proof}"
                             start = node.from - 1;
                             end = node.to + 1; // 1 = "`".length
 
                             if (!rangesHaveOverlap(ranges, start, end)) {
-                                builder.add(
-                                    start, end,
-                                    Decoration.replace({
-                                        widget: new EndProofWidget(plugin, profile)
-                                    })
-                                );
+                                proofRanges.push({ start, end, widget: new EndProofWidget(plugin, profile) });
                             }
                         }
                     }
                 });
+            }
+            addRawProofLineDecorations(view, settings, profile, ranges, sourcePath, plugin, proofRanges);
+            proofRanges.sort((a, b) => a.start - b.start || a.end - b.end);
+            let lastEnd = -1;
+            for (const proofRange of proofRanges) {
+                if (proofRange.start < lastEnd) continue;
+                builder.add(
+                    proofRange.start,
+                    proofRange.end,
+                    Decoration.replace({
+                        widget: proofRange.widget
+                    })
+                );
+                lastEnd = proofRange.end;
             }
             return builder.finish();
         }
     }, {
     decorations: instance => instance.decorations
 });
+
+function addRawProofLineDecorations(
+    view: EditorView,
+    settings: ReturnType<typeof resolveSettings>,
+    profile: Profile,
+    ranges: readonly SelectionRange[],
+    sourcePath: string,
+    plugin: LatexReferencer,
+    proofRanges: { start: number, end: number, widget: BeginProofWidget | EndProofWidget }[]
+) {
+    const { state } = view;
+    for (const { from, to } of view.visibleRanges) {
+        let pos = from;
+        while (pos <= to) {
+            const line = state.doc.lineAt(pos);
+            const text = line.text.trim();
+            const parsed = parseProofText(text, settings);
+            if (parsed) {
+                const start = line.from + line.text.indexOf(text);
+                const end = start + text.length;
+                if (!rangesHaveOverlap(ranges, start, end)) {
+                    proofRanges.push({
+                        start,
+                        end,
+                        widget: parsed.which === "begin" ? new BeginProofWidget(plugin, profile, parsed.display, parsed.linktext, sourcePath) : new EndProofWidget(plugin, profile)
+                    });
+                }
+            }
+            if (line.to >= to) break;
+            pos = line.to + 1;
+        }
+    }
+}
 
 // export const proofFoldFactory = (plugin: LatexReferencer) => foldService.of((state: EditorState, lineStart: number, lineEnd: number) => {
 //     const positions = state.field(plugin.proofPositionField);

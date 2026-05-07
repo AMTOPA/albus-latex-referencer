@@ -12,10 +12,17 @@
 
     /* Common styles for all theorem callouts */
     .callout.theorem-callout {
-        background-color: var(--background-primary-alt);
+        --callout-color: 99, 102, 241;
+        --math-booster-callout-title: #4f46e5;
+        --math-booster-callout-content: #312e81;
+        --math-booster-callout-bg: rgba(var(--callout-color), 0.08);
+        --math-booster-callout-border: rgba(var(--callout-color), 0.48);
+        background-color: var(--math-booster-callout-bg);
+        border: 1px solid var(--math-booster-callout-border);
         border-radius: 6px;
         padding-left: 10px !important;
         padding-bottom: 0px;
+        color: var(--math-booster-callout-content);
     }
 
     /* Purple border for theorem-like callouts */
@@ -23,37 +30,73 @@
     .callout.theorem-callout-theorem,
     .callout.theorem-callout-lemma,
     .callout.theorem-callout-corollary,
-    .callout.theorem-callout-proposition {
-        border-left: 8px solid slateblue !important;
+    .callout.theorem-callout-proposition,
+    .callout.theorem-callout-assumption,
+    .callout.theorem-callout-conjecture,
+    .callout.theorem-callout-hypothesis {
+        --callout-color: 99, 102, 241;
+        --math-booster-callout-title: #4f46e5;
+        --math-booster-callout-content: #312e81;
+        border-left: 8px solid rgb(var(--callout-color)) !important;
     }
 
     /* Green border for definition-like callouts */
     .callout.theorem-callout-axiom,
     .callout.theorem-callout-definition {
-        border-left: 8px solid #56cf8e !important;
+        --callout-color: 16, 185, 129;
+        --math-booster-callout-title: #047857;
+        --math-booster-callout-content: #064e3b;
+        border-left: 8px solid rgb(var(--callout-color)) !important;
     }
 
     /* Yellow border for example-like callouts */
     .callout.theorem-callout-exercise,
     .callout.theorem-callout-example {
-        border-left: 8px solid #ffce65 !important;
+        --callout-color: 245, 158, 11;
+        --math-booster-callout-title: #b45309;
+        --math-booster-callout-content: #78350f;
+        border-left: 8px solid rgb(var(--callout-color)) !important;
+    }
+
+    .callout.theorem-callout-remark {
+        --callout-color: 14, 165, 233;
+        --math-booster-callout-title: #0369a1;
+        --math-booster-callout-content: #075985;
+        border-left: 8px solid rgb(var(--callout-color)) !important;
+    }
+
+    .callout.theorem-callout-math {
+        --callout-color: 59, 130, 246;
+        --math-booster-callout-title: #1d4ed8;
+        --math-booster-callout-content: #1e3a8a;
+        border-left: 8px solid rgb(var(--callout-color)) !important;
     }
 
     /* Callout title styling */
     .callout.theorem-callout .callout-title {
-        color: var(--text-normal) !important;
-        background-color: transparent;
-        padding-left: 0 !important;
+        color: var(--math-booster-callout-title) !important;
+        background-color: rgba(var(--callout-color), 0.13);
+        border-radius: var(--radius-s);
+        padding: var(--size-2-2) var(--size-4-2) !important;
     }
 
     /* Callout content styling */
     .callout.theorem-callout .callout-content {
+        color: var(--math-booster-callout-content);
         padding-left: 0 !important;
     }
 
     /* Hide default callout icons */
     .callout.theorem-callout .callout-icon {
         display: none;
+    }
+
+    .theme-dark & .callout.theorem-callout {
+        --callout-color: 129, 140, 248;
+        --math-booster-callout-title: #c4b5fd;
+        --math-booster-callout-content: #e0e7ff;
+        --math-booster-callout-bg: rgba(var(--callout-color), 0.14);
+        --math-booster-callout-border: rgba(var(--callout-color), 0.52);
     }
     
     /* END */
