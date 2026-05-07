@@ -1,7 +1,7 @@
 # LaTeX Referencer for Obsidian
 
 > [!important]
-> This plugin is a fork of [obsidian-latex-theorem-equation-referencer](https://github.com/RyotaUshio/obsidian-latex-theorem-equation-referencer). It keeps the original theorem/equation referencing workflow and adds extra styles, Chinese support, LaTeX-style theorem environments, proof rendering improvements, and integrated preview/search helpers.
+> This plugin is a fork of [AlbusGuo/albus-latex-referencer](https://github.com/AlbusGuo/albus-latex-referencer). It keeps the theorem/equation referencing workflow and adds extra styles, Chinese support, LaTeX-style theorem environments, proof rendering improvements, and integrated preview/search helpers.
 
 ## Overview
 
@@ -220,4 +220,4 @@ For source code commits, commit the TypeScript/SCSS source files and documentati
 
 ## Credits
 
-This project is based on [obsidian-latex-theorem-equation-referencer](https://github.com/RyotaUshio/obsidian-latex-theorem-equation-referencer) by Ryota Ushio, with additional changes maintained in this fork.
+This project is forked from [AlbusGuo/albus-latex-referencer](https://github.com/AlbusGuo/albus-latex-referencer), which is based on [obsidian-latex-theorem-equation-referencer](https://github.com/RyotaUshio/obsidian-latex-theorem-equation-referencer) by Ryota Ushio.
